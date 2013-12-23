@@ -1,0 +1,2 @@
+C:\Home\Programming\GitHub\XNA_Projekt_v2\WindowsSpel\XNA_ProjektArbete\XNA_ProjektArbete\XNA_ProjektArbeteContent\obj\x86\Debug\XNA_ProjektArbeteContent.contentprojResolveAssemblyReference.cache
+C:\Home\Programming\XNA\SmashGoBang\XNA_ProjektArbete\XNA_ProjektArbeteContent\obj\x86\Debug\XNA_ProjektArbeteContent.contentprojResolveAssemblyReference.cache

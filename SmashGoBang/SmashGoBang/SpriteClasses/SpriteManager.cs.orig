@@ -1,0 +1,325 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using XNA_ProjektArbete.SpriteClasses.SpriteHandler;
+
+namespace XNA_ProjektArbete.SpriteClasses
+{
+    public class SpriteManager : Microsoft.Xna.Framework.DrawableGameComponent
+    {
+        SpriteBatch spriteBatch;
+        UserControlledSprite player;
+        StaticSprite healthBar;
+        //List<Sprite> enemyHandler.enemyList = new List<Sprite>();
+        //List<Sprite> powerUpHandler.powerUpList = new List<Sprite>();
+        //List<Sprite> atomBombHandler.atomBombList = new List<Sprite>();
+        List<Explosion> explosions = new List<Explosion>();
+        SoundManager soundManager;
+
+        PlayerHandler playerHandler = new PlayerHandler();
+        EnemyHandler enemyHandler = new EnemyHandler();
+        WeaponHandler weaponHandler = new WeaponHandler();
+        PowerUpHandler powerUpHandler = new PowerUpHandler();
+        AtomBombHandler atomBombHandler = new AtomBombHandler();
+
+        int enemySpawnMinMilliSeconds = 200;
+        int enemySpawnMaxMilliSeconds = 800;
+        int enemyMinSpeed = 1;
+        int enemyMaxSpeed = 4;
+        int nextSpawnTime = 0;
+        int nextSpawnTimeChange = 10000;
+        int timeSinceLastSpawnTimeChange = 0;
+
+        int likeliAutomated = 90;
+        int likeliChasing = 5;
+        //int likeliEvading = 5;
+
+        int automatedSpritePointValue = 10;
+        int chasingSpritePointValue = 20;
+        int evadingSpritePointValue = 0;
+
+        public int PlayerHealth = 3;
+
+        public SpriteManager(Game game)
+            : base(game)
+        {
+
+        }
+
+        public override void Initialize()
+        {
+            nextSpawnTime = enemyHandler.ResetSpawnTime(Game, nextSpawnTime, enemySpawnMinMilliSeconds, enemySpawnMaxMilliSeconds);
+            
+            base.Initialize();
+        }
+
+        //*
+        public void ResetGame()
+        {
+            enemyHandler.enemyMinSpeed = 1;
+            enemyHandler.enemyMaxSpeed = 4;
+
+            powerUpHandler.powerUpMinSpeed = 1;
+            powerUpHandler.powerUpMaxSpeed = 4;
+
+            //powerUpMinSpeed = 1;
+            //powerUpMaxSpeed = 4;
+            enemySpawnMinMilliSeconds = 200;
+            enemySpawnMaxMilliSeconds = 800;
+            enemyHandler.enemyList.Clear();
+
+            powerUpHandler.powerUpList.Clear();
+            atomBombHandler.atomBombList.Clear();
+            weaponHandler.BulletList.Clear();
+            weaponHandler.ammo = 300;
+            weaponHandler.currentWeapon = weaponType.laser;
+            explosions.Clear();
+            PlayerHealth = 3;            
+        }
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+
+            soundManager = new SoundManager(Game.Content);
+
+            soundManager.playBackGroundMusic();
+            
+            player = playerHandler.LoadPlayer(Game, this);
+
+
+            base.LoadContent();
+        }
+
+        public Vector2 GetPlayerPosition()
+        {
+            return player.GetPosition;
+        }
+
+        //*
+        public int GetPlayerHealth()
+        {
+            return PlayerHealth;
+        }
+
+        public void Shoot()
+        {
+            weaponHandler.SpawnBullet(Game, player);
+        }
+
+        public void SpawnExplosion(Vector2 explosionPosition)
+        {
+            explosions.Add(
+                new Explosion(Game.Content.Load<Texture2D>("Photos/explosion_v2"),
+                    explosionPosition, new Point(100, 100), 10, new Point(0, 0),
+                    new Point(3, 3), new Vector2(0, 0), 40, 10));
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
+            if (nextSpawnTime < 0)
+            {
+                enemyHandler.enemyList = enemyHandler.SpawnEnemy(Game, this);
+                powerUpHandler.powerUpList = powerUpHandler.SpawnPowerUp(Game, this);
+                atomBombHandler.atomBombList = atomBombHandler.SpawnAtomBomb(Game, this);
+                nextSpawnTime = enemyHandler.ResetSpawnTime(Game, nextSpawnTime, enemySpawnMinMilliSeconds, enemySpawnMaxMilliSeconds);
+            }
+
+            UpdateSprites(gameTime);
+
+            enemySpawnMaxMilliSeconds = enemyHandler.AdjustMaxSpawnTimes(gameTime, enemySpawnMaxMilliSeconds, timeSinceLastSpawnTimeChange, nextSpawnTimeChange);
+            enemySpawnMinMilliSeconds = enemyHandler.AdjustMinSpawnTimes(gameTime, enemySpawnMaxMilliSeconds, enemySpawnMinMilliSeconds, timeSinceLastSpawnTimeChange, nextSpawnTimeChange);
+            
+            base.Update(gameTime);
+        }
+
+        protected void UpdateSprites(GameTime gameTime)
+        {
+            // UPDATE ReturnPlayer
+            player.Update(gameTime, Game.Window.ClientBounds);
+            
+            // UPDATE sprites
+            for (int i = 0; i < enemyHandler.enemyList.Count; ++i)
+            {
+                Sprite s = enemyHandler.enemyList[i];
+                s.Update(gameTime, Game.Window.ClientBounds);
+
+                // Vid kollision forsvinner Objektet EXEMPEL
+                if (s.collisionRect.Intersects(player.collisionRect))
+                {
+                    soundManager.playExplosionSound();
+                    SpawnExplosion(enemyHandler.enemyList[i].GetPosition);
+                    enemyHandler.enemyList.RemoveAt(i);
+                    --i;
+
+                    PlayerHealth = playerHandler.PlayerIsHit(PlayerHealth);
+                }
+
+                // REMOVES Objects that are out of bounds
+                if (s.IsOutOfBounds(Game.Window.ClientBounds))
+                {
+                    enemyHandler.enemyList.RemoveAt(i);
+                    --i;
+                }
+            }
+
+            //Update powerUps
+            for (int i = 0; i < powerUpHandler.powerUpList.Count; ++i)
+            {
+                Sprite s = powerUpHandler.powerUpList[i];
+                s.Update(gameTime, Game.Window.ClientBounds);
+
+                // Vid kollision forsvinner Objektet EXEMPEL
+                if (s.collisionRect.Intersects(player.collisionRect))
+                {
+                    //soundManager.playExplosionSound();
+                    //SpawnExplosion(enemyHandler.enemyList[i].GetPosition);
+                    weaponHandler.ammo = 300;
+                    weaponHandler.currentWeapon = weaponType.laser;
+                    powerUpHandler.powerUpList.RemoveAt(i);
+                    --i;
+
+                    //PlayerHealth = playerHandler.PlayerIsHit(PlayerHealth);
+                }
+
+                
+                // REMOVES Objects that are out of bounds
+                if (s.IsOutOfBounds(Game.Window.ClientBounds))
+                {
+                    powerUpHandler.powerUpList.RemoveAt(i);
+                    --i;
+                }
+            }
+
+            //Update atombomb
+            for (int i = 0; i < atomBombHandler.atomBombList.Count; ++i)
+            {
+                Sprite s = atomBombHandler.atomBombList[i];
+                s.Update(gameTime, Game.Window.ClientBounds);
+
+                // Vid kollision forsvinner Objektet EXEMPEL
+                if (s.collisionRect.Intersects(player.collisionRect))
+                {
+                    soundManager.playExplosionSound();
+                    for (int e = 0; e < enemyHandler.enemyList.Count; e++)
+                    {
+<<<<<<< HEAD
+                        SpawnExplosion(spriteList[e].GetPosition);
+                        ((Game1)Game).AddScore(spriteList[e].scoreValue);
+=======
+                        SpawnExplosion(enemyHandler.enemyList[e].GetPosition);
+>>>>>>> 8b8f29f61befe265703de350674b4d1995319bb2
+                    }
+                    enemyHandler.enemyList.Clear();
+                    atomBombHandler.atomBombList.RemoveAt(i);
+                    --i;
+                }
+
+                // REMOVES Objects that are out of bounds
+                if (s.IsOutOfBounds(Game.Window.ClientBounds))
+                {
+                    atomBombHandler.atomBombList.RemoveAt(i);
+                    --i;
+                }
+            }
+            // Update Bullet Delay
+            weaponHandler.bulletdelay -= gameTime.ElapsedGameTime.Milliseconds;
+
+            //UpdateBullet
+            for (int i = 0; i < weaponHandler.BulletList.Count; ++i)
+            {
+                //soundManager.playShotSound();
+                BulletSprite b = weaponHandler.BulletList[i];
+                b.Update(gameTime, Game.Window.ClientBounds);
+
+                // Kollison Med fiender
+                for (int z = 0; z < enemyHandler.enemyList.Count; ++z)
+                {
+                    Sprite s = enemyHandler.enemyList[z];
+
+                    // Vid kollision forsvinner Objektet och Bullet
+                    if (s.collisionRect.Intersects(b.collisionRect))
+                    {
+                        ((Game1)Game).AddScore(enemyHandler.enemyList[z].scoreValue);
+                        soundManager.playExplosionSound();
+                        SpawnExplosion(enemyHandler.enemyList[z].GetPosition);
+                        enemyHandler.enemyList.RemoveAt(z);
+                        --z;
+
+                        weaponHandler.BulletList.RemoveAt(i);
+
+                        //game.Exit();
+                    }
+                }
+
+                // REMOVES Objects that are out of bounds
+                if (b.IsOutOfBounds(Game.Window.ClientBounds))
+                {
+                    weaponHandler.BulletList.RemoveAt(i);
+                    --i;
+                }
+            }
+
+            //Update Explosion
+            for (int i = 0; i < explosions.Count; i++)
+            {
+                explosions[i].Update(gameTime, Game.Window.ClientBounds);
+                if (explosions[i].IsDone())
+                {
+                    explosions.Remove(explosions[i]);
+                }
+            }
+
+            base.Update(gameTime);
+
+        }
+
+        //*
+        public void DrawSprites(GameTime gameTime)
+        {
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+
+            player.Draw(gameTime, spriteBatch);
+            
+            foreach (Sprite s in enemyHandler.enemyList)
+            {
+                s.Draw(gameTime, spriteBatch);
+            }
+            //Draw powerUp
+            foreach (Sprite s in powerUpHandler.powerUpList)
+            {
+                s.Draw(gameTime, spriteBatch);
+            }
+            //Draw atomBomb
+            foreach (Sprite s in atomBombHandler.atomBombList)
+            {
+                s.Draw(gameTime, spriteBatch);
+            }
+            //Draw Bullets
+            foreach (BulletSprite b in weaponHandler.BulletList)
+            {
+                b.Draw(gameTime, spriteBatch);
+            }
+
+            //Draw Explosion
+            foreach (Explosion explsn in explosions)
+            {
+                explsn.Draw(gameTime, spriteBatch);
+            }
+
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+        
+    }
+}

@@ -1,0 +1,2 @@
+C:\Home\Programming\XNA\SmashGoBang\XNA_ProjektArbete\XNA_ProjektArbeteContent\obj\x86\Debug\SmashGoBang_content.contentprojResolveAssemblyReference.cache
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBangContent\obj\x86\Debug\SmashGoBang_content.contentprojResolveAssemblyReference.cache
