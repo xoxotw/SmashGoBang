@@ -70,13 +70,13 @@ C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\Conten
 C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\Content\Sounds\shot.xnb
 C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\Content\Sounds\reload.xnb
 C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\Content\Sounds\background.wma
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\XNA_ProjektArbete.exe.manifest
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\XNA_ProjektArbete.application
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\XNA_ProjektArbete.exe
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\XNA_ProjektArbete.pdb
 C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\SmashGoBang.csprojResolveAssemblyReference.cache
 C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\XNA_ProjektArbete.exe.manifest
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\XNA_ProjektArbete.application
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\XNA_ProjektArbete.exe
-C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\XNA_ProjektArbete.pdb
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\[ Smash Go Bang ].exe.manifest
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\[ Smash Go Bang ].application
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\[ Smash Go Bang ].exe
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\[ Smash Go Bang ].pdb
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\[ Smash Go Bang ].exe.manifest
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\[ Smash Go Bang ].application
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\[ Smash Go Bang ].exe
+C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\obj\x86\Debug\[ Smash Go Bang ].pdb

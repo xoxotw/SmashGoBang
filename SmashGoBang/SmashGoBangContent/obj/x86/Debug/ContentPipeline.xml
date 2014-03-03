@@ -278,10 +278,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBangContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBangContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>c:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBangContent\</RootDirectory>
+      <LoggerRootDirectory>c:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\</LoggerRootDirectory>
+      <IntermediateDirectory>c:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBangContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>c:\Home\Programming\XNA\SmashGoBang\SmashGoBang\SmashGoBang\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

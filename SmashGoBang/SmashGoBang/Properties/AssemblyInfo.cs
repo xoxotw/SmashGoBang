@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("XNA_ProjektArbete")]
-[assembly: AssemblyProduct("XNA_ProjektArbete")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("[ Smash Go Bang ]")]
+[assembly: AssemblyProduct("smashGoBang")]
+[assembly: AssemblyDescription("smup")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,4 +31,4 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.8.7.8")]
